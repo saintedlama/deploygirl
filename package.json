@@ -1,0 +1,51 @@
+{
+  "name": "deploygirl",
+  "version": "1.0.0",
+  "description": "Low ceremony super hero application deployment",
+  "bin": "./bin/server",
+  "scripts": {
+    "start": "node ./bin/server",
+    "test": "mocha --recursive test",
+    "cover": "cross-env NODE_ENV=test istanbul cover ./node_modules/mocha/bin/_mocha --report html -- -R spec"
+  },
+  "repository": "saintedlama/deploygirl",
+  "keywords": [
+    "deployment",
+    "deployments",
+    "application"
+  ],
+  "author": "Christoph Walcher <christoph.walcher@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/saintedlama/deploygirl/issues"
+  },
+  "homepage": "https://github.com/saintedlama/deploygirl#readme",
+  "dependencies": {
+    "async": "^2.1.2",
+    "basic-auth": "^1.0.4",
+    "body-parser": "~1.15.2",
+    "cors": "^2.8.1",
+    "debug": "~2.2.0",
+    "express": "~4.14.0",
+    "glob": "^7.1.1",
+    "helmet": "^2.3.0",
+    "http-errors": "^1.5.0",
+    "lodash": "^4.16.4",
+    "lowdb": "^0.13.1",
+    "morgan": "~1.7.0",
+    "multer": "^1.2.0",
+    "pem": "^1.8.3",
+    "rc": "^1.1.6",
+    "request": "^2.75.0",
+    "tar.gz": "^1.0.5",
+    "tmp": "0.0.29",
+    "uuid": "^2.0.3",
+    "yargs": "^6.2.0"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "istanbul": "^0.4.5",
+    "mocha": "^3.1.2",
+    "supertest": "^2.0.0"
+  }
+}

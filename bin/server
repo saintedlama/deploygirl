@@ -1,0 +1,92 @@
+#!/usr/bin/env node
+
+const fs = require('fs');
+const https = require('https');
+const pem = require('pem');
+
+const debug = require('debug')('deploygirl');
+
+const app = require('../app');
+const config = require('../config');
+
+const port = normalizePort(config.port);
+app.set('port', port);
+
+const hostname = config.hostname;
+app.set('hostname', hostname);
+
+if (config.ssl.keyFile && config.ssl.certFile) {
+  const sslConfig = {
+    key: fs.readFileSync(config.ssl.keyFile),
+    cert: fs.readFileSync(config.ssl.certFile)
+  };
+
+  const server = https.createServer(sslConfig, app);
+
+  server.listen(port, hostname);
+  server.on('error', onError);
+  server.on('listening', onListening(server));
+} else {
+  // Create self signed certificate
+  pem.createCertificate({ days: 365, selfSigned: true }, function(err, keys) {
+    const sslConfig = {
+      key: keys.serviceKey,
+      cert: keys.certificate
+    };
+
+    const server = https.createServer(sslConfig, app);
+
+    server.listen(port, hostname);
+    server.on('error', onError);
+    server.on('listening', onListening(server));
+  });
+}
+
+function normalizePort(val) {
+  var port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
+
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+
+  return false;
+}
+
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+
+  var bind = typeof port === 'string'
+    ? 'Pipe ' + port
+    : 'Port ' + port;
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+function onListening(server) {
+  return function() {
+    const addr = server.address();
+    const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
+
+    debug(`Listening on ${hostname ? hostname : '*'}:${bind}`);
+  }
+}
