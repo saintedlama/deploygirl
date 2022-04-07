@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/saintedlama/deploygirl#readme",
   "dependencies": {
-    "async": "^2.1.2",
+    "async": "^3.2.2",
     "basic-auth": "^1.0.4",
     "body-parser": "~1.15.2",
     "cors": "^2.8.1",
