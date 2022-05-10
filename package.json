@@ -40,7 +40,7 @@
     "tar.gz": "^1.0.5",
     "tmp": "0.0.29",
     "uuid": "^2.0.3",
-    "yargs": "^6.2.0"
+    "yargs": "^7.0.0"
   },
   "devDependencies": {
     "chai": "^3.5.0",
